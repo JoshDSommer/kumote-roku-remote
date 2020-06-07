@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "projects": {
+    "kumote-web-remote": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/kumote-web-remote",
+      "sourceRoot": "apps/kumote-web-remote/src",
+      "prefix": "kumote",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/kumote-web-remote",
+            "index": "apps/kumote-web-remote/src/index.html",
+            "main": "apps/kumote-web-remote/src/main.ts",
+            "polyfills": "apps/kumote-web-remote/src/polyfills.ts",
+            "tsConfig": "apps/kumote-web-remote/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/kumote-web-remote/src/favicon.ico",
+              "apps/kumote-web-remote/src/assets"
+            ],
+            "styles": ["apps/kumote-web-remote/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/kumote-web-remote/src/environments/environment.ts",
+                  "with": "apps/kumote-web-remote/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "kumote-web-remote:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "kumote-web-remote:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "kumote-web-remote:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/kumote-web-remote/tsconfig.app.json",
+              "apps/kumote-web-remote/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/kumote-web-remote/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/kumote-web-remote/jest.config.js",
+            "tsConfig": "apps/kumote-web-remote/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/kumote-web-remote/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "kumote-web-remote-e2e": {
+      "root": "apps/kumote-web-remote-e2e",
+      "sourceRoot": "apps/kumote-web-remote-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/kumote-web-remote-e2e/cypress.json",
+            "tsConfig": "apps/kumote-web-remote-e2e/tsconfig.e2e.json",
+            "devServerTarget": "kumote-web-remote:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "kumote-web-remote:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/kumote-web-remote-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/kumote-web-remote-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "kumote-web-remote"
+}
