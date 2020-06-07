@@ -37,3 +37,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+/apps/**/node_modules
+/apps/**/platforms
+/apps/**/**/*.js
+/libs/core/**/*.js
+
